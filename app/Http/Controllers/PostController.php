@@ -12,15 +12,15 @@ class PostController extends Controller
 
         $posts = Post::latest();
 
-        return view('posts' , [
+        return view('posts.index' , [
 
-            'posts' => Post::latest()->filter(request(['search']))->get(),
+            'posts' => Post::latest()->filter(request(['search' , 'category']))->get(),
             'categories' => Category::all()
         ]);
     }
 
     public function show($id){
 
-        return view('post' , ['post' => Post::find($id)]);
+        return view('posts.show' , ['post' => Post::find($id)]);
     }
 }

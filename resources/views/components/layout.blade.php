@@ -1,6 +1,6 @@
 <!doctype html>
 
-<title>Laravel From Scratch Blog</title>
+<title>Laravel Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -22,10 +22,27 @@
 
             </div>
 
-            <div class="mt-8 md:mt-0">
+            <div class="mt-8 md:mt-0 flex items-center">
 
-                <a href="/" class="text-xs font-bold uppercase">Home Page</a>
+                @auth
 
+                    <a href="/register" class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}</a>
+
+                    <form action="/logout" method="POST" class="text-xs font-semibold text-blue-500 ml-6">
+                        @csrf
+
+                        <button type="submit">Log Out</button>
+
+                    </form>
+
+                @else
+
+                    <a href="/register" class="text-xs font-bold uppercase">Register</a> 
+                    
+                    <a href="/login" class="ml-6 text-xs font-bold uppercase">Login</a> 
+
+                @endauth
+                
                 <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                     Subscribe for Updates
                 </a>
@@ -68,4 +85,15 @@
         </footer>
 
     </section>
+
+    @if (session()->has('success'))
+
+    <div x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 4000)"
+        x-show="show"
+        class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+        <p>{{ session('success') }}</p>
+    </div>
+        
+    @endif
 </body>
